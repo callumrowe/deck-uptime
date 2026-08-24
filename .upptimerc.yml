@@ -20,7 +20,7 @@ sites:
   # Caddy and container as /healthz; only the status code differs. Removed once
   # the alert and the recovery have both been seen.
   - name: Alert test
-    url: https://deck.cjhr.dev/healthz
+    url: https://deck.cjhr.dev/api/__nope__
 
 # Downtime opens an issue in this repository; it closes itself on recovery.
 assignees:
