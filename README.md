@@ -42,6 +42,12 @@ whole chain a user depends on, tested the way a user meets it.
 posts to Deck's uptime channel in Slack. Both resolve themselves when the
 service recovers.
 
+**What has not been proven.** The up path is verified — checks run every five
+minutes and record a pass. The *down* path is not: no check has yet failed, so
+no Slack message has ever actually been sent. The secrets are set, which proves
+they exist and not that they work. Until a real outage or a deliberate test,
+treat the alert as configured rather than working.
+
 **Where the status page lives.** GitHub Pages, deliberately — a status page
 hosted on the infrastructure it reports on goes down with it.
 
