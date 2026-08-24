@@ -1,31 +1,45 @@
-# Change these first
-owner: upptime # Your GitHub organization or username, where this repository lives
-repo: upptime # The name of this repository
+owner: callumrowe
+repo: deck-uptime
 
+# One site, and deliberately the health endpoint rather than the homepage.
+#
+# `/healthz` runs a real `select 1` against Postgres instead of returning 200
+# for a booted process, so a check that passes from the public URL means the
+# whole chain a user depends on is genuinely up: Hetzner host, Docker, the
+# platform Caddy, the app, and the database. The app's own deploy gates on this
+# same endpoint for the same reason.
+#
+# The point of running it from here is that it runs *off* the box. Everything
+# else watching Deck — the signals worker, the error reporter — is a process on
+# the host it is watching, so a dead host produces no alert, just silence. This
+# is the only signal whose absence cannot be mistaken for good news.
 sites:
-  - name: Google
-    url: https://www.google.com
-  - name: Wikipedia
-    url: https://en.wikipedia.org
-  - name: Hacker News
-    url: https://news.ycombinator.com
-  - name: Secret Site
-    url: $SECRET_SITE
+  - name: Deck
+    url: https://deck.cjhr.dev/healthz
+
+# Downtime opens an issue in this repository; it closes itself on recovery.
+assignees:
+  - callumrowe
 
 status-website:
-  # Add your custom domain name, or remove the `cname` line if you don't have a domain
-  # Uncomment the `baseUrl` line if you don't have a custom domain and add your repo name there
-  cname: demo.upptime.js.org
-  # baseUrl: /your-repo-name
-  logoUrl: https://raw.githubusercontent.com/upptime/upptime.js.org/master/static/img/icon.svg
-  name: Upptime
-  introTitle: "**Upptime** is the open-source uptime monitor and status page, powered entirely by GitHub."
-  introMessage: This is a sample status page which uses **real-time** data from our [GitHub repository](https://github.com/upptime/upptime). No server required — just GitHub Actions, Issues, and Pages. [**Get your own for free**](https://github.com/upptime/upptime)
+  # No custom domain: the status page lives on GitHub Pages, off the Hetzner
+  # box. A status page hosted on the infrastructure it reports on goes down
+  # with it.
+  baseUrl: /deck-uptime
+  name: Deck Status
+  introTitle: "**Deck** — live status"
+  introMessage: Checked every five minutes from GitHub Actions, outside the server Deck runs on. Outages open an [issue](https://github.com/callumrowe/deck-uptime/issues) and post to Slack.
   navbar:
     - title: Status
       href: /
     - title: GitHub
       href: https://github.com/$OWNER/$REPO
 
-# Upptime also supports notifications, assigning issues, and more
-# See https://upptime.js.org/docs/configuration
+# Values passed through to the workflows from repository secrets.
+# NOTIFICATION_SLACK is the literal string "true"; the webhook URL points at
+# Deck's dedicated uptime channel, kept separate from the sync, infra, backups
+# and error channels so an outage is never buried in, or muted with, anything
+# else.
+secrets:
+  - NOTIFICATION_SLACK
+  - NOTIFICATION_SLACK_WEBHOOK_URL
