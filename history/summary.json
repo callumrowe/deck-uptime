@@ -23,16 +23,18 @@
     "icon": "https://icons.duckduckgo.com/ip3/deck.cjhr.dev.ico",
     "slug": "alert-test",
     "status": "down",
-    "uptime": "100.00%",
-    "uptimeDay": "100.00%",
-    "uptimeWeek": "100.00%",
-    "uptimeMonth": "100.00%",
-    "uptimeYear": "100.00%",
+    "uptime": "98.29%",
+    "uptimeDay": "98.29%",
+    "uptimeWeek": "98.29%",
+    "uptimeMonth": "98.29%",
+    "uptimeYear": "98.29%",
     "time": 373,
     "timeDay": 373,
     "timeWeek": 373,
     "timeMonth": 373,
     "timeYear": 373,
-    "dailyMinutesDown": {}
+    "dailyMinutesDown": {
+      "2026-08-24": 0
+    }
   }
 ]
