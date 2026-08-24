@@ -18,7 +18,7 @@ This repository contains the open-source uptime monitor and status page for [Cal
 
 <!--end: status pages-->
 
-Live status page: **https://callumrowe.github.io/deck-uptime/**
+Live status page: **https://status.cjhr.dev**
 
 ## Why this exists
 
@@ -51,8 +51,11 @@ logged the same. The alert path works — it has been watched working.
 Worth knowing from that test: Upptime retries three times before declaring a
 site down, so a single blip does not page anything.
 
-**Where the status page lives.** GitHub Pages, deliberately — a status page
-hosted on the infrastructure it reports on goes down with it.
+**Where the status page lives.** GitHub Pages at `status.cjhr.dev`,
+deliberately — a status page hosted on the infrastructure it reports on goes
+down with it. The DNS is a CNAME to `callumrowe.github.io` and is left
+unproxied: an A record to the server would have defeated the point entirely,
+and Cloudflare's proxy would block GitHub from issuing the certificate.
 
 ## Configuration
 
