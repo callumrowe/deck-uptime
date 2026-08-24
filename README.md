@@ -17,8 +17,32 @@ This repository contains the open-source uptime monitor and status page for [Cal
 | <img alt="" src="https://icons.duckduckgo.com/ip3/deck.cjhr.dev.ico" height="13"> [Deck](https://deck.cjhr.dev/healthz) | 🟩 Up | [deck.yml](https://github.com/callumrowe/deck-uptime/commits/HEAD/history/deck.yml) | <details><summary><img alt="Response time graph" src="./graphs/deck/response-time-week.png" height="20"> 875ms</summary><br><a href="https://callumrowe.github.io/deck-uptime/history/deck"><img alt="Response time 875" src="https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2Fcallumrowe%2Fdeck-uptime%2FHEAD%2Fapi%2Fdeck%2Fresponse-time.json"></a><br><a href="https://callumrowe.github.io/deck-uptime/history/deck"><img alt="24-hour response time 875" src="https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2Fcallumrowe%2Fdeck-uptime%2FHEAD%2Fapi%2Fdeck%2Fresponse-time-day.json"></a><br><a href="https://callumrowe.github.io/deck-uptime/history/deck"><img alt="7-day response time 875" src="https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2Fcallumrowe%2Fdeck-uptime%2FHEAD%2Fapi%2Fdeck%2Fresponse-time-week.json"></a><br><a href="https://callumrowe.github.io/deck-uptime/history/deck"><img alt="30-day response time 875" src="https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2Fcallumrowe%2Fdeck-uptime%2FHEAD%2Fapi%2Fdeck%2Fresponse-time-month.json"></a><br><a href="https://callumrowe.github.io/deck-uptime/history/deck"><img alt="1-year response time 875" src="https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2Fcallumrowe%2Fdeck-uptime%2FHEAD%2Fapi%2Fdeck%2Fresponse-time-year.json"></a></details> | <details><summary><a href="https://callumrowe.github.io/deck-uptime/history/deck">100.00%</a></summary><a href="https://callumrowe.github.io/deck-uptime/history/deck"><img alt="All-time uptime 100.00%" src="https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2Fcallumrowe%2Fdeck-uptime%2FHEAD%2Fapi%2Fdeck%2Fuptime.json"></a><br><a href="https://callumrowe.github.io/deck-uptime/history/deck"><img alt="24-hour uptime 100.00%" src="https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2Fcallumrowe%2Fdeck-uptime%2FHEAD%2Fapi%2Fdeck%2Fuptime-day.json"></a><br><a href="https://callumrowe.github.io/deck-uptime/history/deck"><img alt="7-day uptime 100.00%" src="https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2Fcallumrowe%2Fdeck-uptime%2FHEAD%2Fapi%2Fdeck%2Fuptime-week.json"></a><br><a href="https://callumrowe.github.io/deck-uptime/history/deck"><img alt="30-day uptime 100.00%" src="https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2Fcallumrowe%2Fdeck-uptime%2FHEAD%2Fapi%2Fdeck%2Fuptime-month.json"></a><br><a href="https://callumrowe.github.io/deck-uptime/history/deck"><img alt="1-year uptime 100.00%" src="https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2Fcallumrowe%2Fdeck-uptime%2FHEAD%2Fapi%2Fdeck%2Fuptime-year.json"></a></details>
 
 <!--end: status pages-->
-
 Live status page: **https://callumrowe.github.io/deck-uptime/**
+
+## Why this exists
+
+Everything else that watches Deck runs inside Deck: a signals worker measuring
+sync age, memory, disk and latency on a one-minute clock, and an error reporter
+posting what throws. Both are processes on the same host as the thing they are
+watching, and they share one blind spot — if the host goes down, Docker stops,
+or the platform Caddy stops routing, nothing throws and no threshold is
+crossed. The Slack channels simply go quiet, and quiet is also what a healthy
+night looks like.
+
+This checks from outside, every five minutes, on GitHub's runners. It is the
+only signal whose absence cannot be mistaken for good news.
+
+**What it checks.** `https://deck.cjhr.dev/healthz`, which performs a real
+database query rather than returning 200 for a booted process. A pass from the
+public URL means the host, Docker, Caddy, the app and Postgres are all up — the
+whole chain a user depends on, tested the way a user meets it.
+
+**What happens when it fails.** An issue opens in this repository and a message
+posts to Deck's uptime channel in Slack. Both resolve themselves when the
+service recovers.
+
+**Where the status page lives.** GitHub Pages, deliberately — a status page
+hosted on the infrastructure it reports on goes down with it.
 
 ## Configuration
 
