@@ -22,10 +22,16 @@ assignees:
   - callumrowe
 
 status-website:
-  # No custom domain: the status page lives on GitHub Pages, off the Hetzner
-  # box. A status page hosted on the infrastructure it reports on goes down
-  # with it.
-  baseUrl: /deck-uptime
+  # Served by GitHub Pages, off the Hetzner box, on purpose: a status page
+  # hosted on the infrastructure it reports on goes down with it. The DNS is a
+  # CNAME to callumrowe.github.io, deliberately not an A record to the server
+  # and deliberately not proxied — GitHub issues its own certificate and cannot
+  # validate through Cloudflare's proxy.
+  #
+  # Upptime writes the CNAME file on gh-pages from this value, so it must stay
+  # in step with the custom domain configured on the repository's Pages
+  # settings; the site build overwrites that branch on every run.
+  cname: status.cjhr.dev
   name: Deck Status
   introTitle: "**Deck** — live status"
   introMessage: Checked every five minutes from GitHub Actions, outside the server Deck runs on. Outages open an [issue](https://github.com/callumrowe/deck-uptime/issues) and post to Slack.
