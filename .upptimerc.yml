@@ -16,11 +16,6 @@ repo: deck-uptime
 sites:
   - name: Deck
     url: https://deck.cjhr.dev/healthz
-  # TEMPORARY — end-to-end test of the down-alert path. Same DNS, Cloudflare,
-  # Caddy and container as /healthz; only the status code differs. Removed once
-  # the alert and the recovery have both been seen.
-  - name: Alert test
-    url: https://deck.cjhr.dev/healthz
 
 # Downtime opens an issue in this repository; it closes itself on recovery.
 assignees:
