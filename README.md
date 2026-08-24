@@ -43,11 +43,14 @@ whole chain a user depends on, tested the way a user meets it.
 posts to Deck's uptime channel in Slack. Both resolve themselves when the
 service recovers.
 
-**What has not been proven.** The up path is verified — checks run every five
-minutes and record a pass. The _down_ path is not: no check has yet failed, so
-no Slack message has ever actually been sent. The secrets are set, which proves
-they exist and not that they work. Until a real outage or a deliberate test,
-treat the alert as configured rather than working.
+**Proven, not assumed.** Both transitions have been exercised deliberately
+against a temporary test site on the same DNS, Cloudflare, Caddy and container
+path as `/healthz`. Going down opened and locked an issue and logged
+`Sending Slack / Success Slack`; coming back up commented, closed the issue and
+logged the same. The alert path works — it has been watched working.
+
+Worth knowing from that test: Upptime retries three times before declaring a
+site down, so a single blip does not page anything.
 
 **Where the status page lives.** GitHub Pages, deliberately — a status page
 hosted on the infrastructure it reports on goes down with it.
